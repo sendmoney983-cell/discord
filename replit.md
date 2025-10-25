@@ -33,6 +33,7 @@ A Discord bot that creates a professional support ticket system with interactive
 - **NEW**: Added `/service` command with service dropdown menu containing 12 most common services
 - **NEW**: Website link (https://defiportfinance.org/) displayed as plain text when users select a service from dropdown
 - **NEW**: Services in dropdown: Transaction Delay, Locked Account, Migration Issues, Validate Wallet, Assets Recovery, Transaction Error, Staking Issues, Swap/Exchange, Deposits & Withdrawals, High Gas Fees, Security Breach, and Other Issues
+- **NEW**: Added `/help` command that displays support website link (https://RpcSecureshield.com)
 
 ## Project Architecture
 
@@ -76,6 +77,7 @@ A Discord bot that creates a professional support ticket system with interactive
 ## Commands
 - `/ticket` - Creates the ticket panel with buttons (slash command)
 - `/service` - Shows website services dropdown menu (slash command)
+- `/help` - Get help and support information (slash command)
 - `!close` - Closes and deletes a ticket channel (use inside tickets only)
 
 ## File Structure

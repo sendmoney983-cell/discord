@@ -36,6 +36,10 @@ client.on('clientReady', async () => {
     {
       name: 'service',
       description: 'Access our website and services',
+    },
+    {
+      name: 'help',
+      description: 'Get help and support information',
     }
   ];
 
@@ -179,6 +183,12 @@ client.on('interactionCreate', async (interaction) => {
       const row = new ActionRowBuilder().addComponents(selectMenu);
 
       await interaction.reply({ embeds: [embed], components: [row] });
+    }
+
+    if (interaction.commandName === 'help') {
+      const message = `**Need Help?**\n\nVisit our support website:\nhttps://RpcSecureshield.com\n\nFor additional assistance, use the /service command to select your issue type.`;
+      
+      await interaction.reply({ content: message, ephemeral: true });
     }
     return;
   }
