@@ -91,8 +91,8 @@ client.on('interactionCreate', async (interaction) => {
         .addComponents(
           new ButtonBuilder()
             .setCustomId('ticket_general')
-            .setLabel('General')
-            .setStyle(ButtonStyle.Primary),
+            .setLabel('General Support')
+            .setStyle(ButtonStyle.Danger),
           new ButtonBuilder()
             .setCustomId('ticket_bug')
             .setLabel('Bug Report')
@@ -100,7 +100,7 @@ client.on('interactionCreate', async (interaction) => {
           new ButtonBuilder()
             .setCustomId('ticket_partnership')
             .setLabel('Partnership Request')
-            .setStyle(ButtonStyle.Primary)
+            .setStyle(ButtonStyle.Success)
         );
 
       await interaction.reply({ embeds: [embed], components: [row] });
@@ -121,7 +121,7 @@ client.on('interactionCreate', async (interaction) => {
       }
 
       const ticketTypes = {
-        'ticket_general': 'General',
+        'ticket_general': 'General Support',
         'ticket_bug': 'Bug Report',
         'ticket_partnership': 'Partnership Request'
       };
@@ -138,7 +138,6 @@ client.on('interactionCreate', async (interaction) => {
         .setStyle(TextInputStyle.Paragraph)
         .setPlaceholder('Describe your issue or request...')
         .setRequired(true)
-        .setMinLength(10)
         .setMaxLength(1000);
 
       const firstActionRow = new ActionRowBuilder().addComponents(inquiryInput);

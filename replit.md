@@ -28,6 +28,8 @@ A Discord bot that creates a professional support ticket system with interactive
 - **NEW**: Added Show Copyable Info button (blue) to display ticket details
 - Ticket data now includes user's inquiry text from the form
 - **NEW**: Tickets are now created under a "Support Tickets" category (auto-created if doesn't exist)
+- **UPDATED**: Removed minimum character requirement for ticket inquiries (users can now type anything)
+- **UPDATED**: Button colors - General Support (Red/Danger), Bug Report (Blue/Primary), Partnership Request (Green/Success)
 
 ## Project Architecture
 

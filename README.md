@@ -78,12 +78,15 @@ The bot will automatically start when you run the project. You should see:
    ```
    /ticket
    ```
-2. The bot will create an embed with three buttons: General, Bug Report, and Partnership Request
+2. The bot will create an embed with three buttons:
+   - **General Support** (Red) - For general inquiries
+   - **Bug Report** (Blue) - For reporting bugs
+   - **Partnership Request** (Green) - For partnership opportunities
 
 ### Creating a Ticket
 
 When users click one of the three buttons:
-1. A form (modal) appears asking them to describe their inquiry
+1. A form (modal) appears asking them to describe their inquiry (they can type anything, no minimum length!)
 2. After submitting the form, a private ticket channel is created **under the "Support Tickets" category**
 3. Only the user and staff can see the channel
 4. The welcome message shows their inquiry and two buttons:
