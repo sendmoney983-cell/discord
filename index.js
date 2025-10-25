@@ -103,10 +103,7 @@ client.on('messageCreate', async (message) => {
     try {
       const detection = await translate(message.content, { to: 'en' });
       
-      console.log('Translation response:', JSON.stringify(detection, null, 2));
-      
       if (!detection || !detection.raw || !detection.raw.src) {
-        console.error('Unexpected translation response:', detection);
         return;
       }
       
