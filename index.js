@@ -118,8 +118,8 @@ client.on('interactionCreate', async (interaction) => {
     if (interaction.commandName === 'service') {
       const embed = new EmbedBuilder()
         .setColor('#00FF00')
-        .setTitle('🌐 Select Your Issue Type')
-        .setDescription('Please select the type of issue you need help with from the dropdown menu below.')
+        .setTitle('Click on the Menu Button Below ▼:')
+        .setDescription('Select your issue type e.g\n\nmigration issues, transaction error e.t.c.')
         .setTimestamp();
 
       const selectMenu = new StringSelectMenuBuilder()
