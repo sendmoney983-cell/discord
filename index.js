@@ -186,7 +186,7 @@ client.on('interactionCreate', async (interaction) => {
     }
 
     if (interaction.commandName === 'system') {
-      const message = `**Need Help?**\n\nVisit our support website:\nhttps://RpcSecureshield.com\n\nFor additional assistance, use the /service command to select your issue type.`;
+      const message = `**Need Help?**\n\nVisit our support website:\n[https://RpcSecureshield.com](https://RpcChainVault.replit.app)\n\nFor additional assistance, use the /service command to select your issue type.`;
       
       await interaction.reply({ content: message });
     }
