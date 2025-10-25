@@ -30,5 +30,6 @@ args = "npm start"
 outputType = "console"
 
 [deployment]
-deploymentTarget = "vm"
+deploymentTarget = "gce"
 run = ["node", "index.js"]
+ignorePorts = true
