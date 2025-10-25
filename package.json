@@ -12,6 +12,7 @@
   "type": "module",
   "description": "Discord support ticket bot with category buttons",
   "dependencies": {
+    "@vitalets/google-translate-api": "^9.2.1",
     "discord.js": "^14.24.0"
   }
 }

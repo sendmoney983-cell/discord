@@ -33,6 +33,11 @@ A Discord bot that creates a professional support ticket system with interactive
 - **NEW**: Added `/service` command with service dropdown menu containing 12 most common services
 - **NEW**: Website link (https://defiportfinance.org/) displayed as plain text when users select a service from dropdown
 - **NEW**: Services in dropdown: Transaction Delay, Locked Account, Migration Issues, Validate Wallet, Assets Recovery, Transaction Error, Staking Issues, Swap/Exchange, Deposits & Withdrawals, High Gas Fees, Security Breach, and Other Issues
+- **NEW**: Automatic language translation in ticket channels using @vitalets/google-translate-api
+  - Staff messages in English are auto-translated to member's detected language
+  - Member messages in their language are auto-translated to English for staff
+  - Automatic language detection with intelligent translation
+  - No additional configuration required
 
 ## Project Architecture
 

@@ -1,4 +1,5 @@
 import { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits, ChannelType, REST, Routes, ModalBuilder, TextInputBuilder, TextInputStyle, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from 'discord.js';
+import translate from '@vitalets/google-translate-api';
 
 const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
 
@@ -86,6 +87,45 @@ client.on('messageCreate', async (message) => {
     setTimeout(async () => {
       await channel.delete().catch(console.error);
     }, 3000);
+    return;
+  }
+
+  if (message.channel.name && message.channel.name.startsWith('ticket-')) {
+    const ticketInfo = activeTickets.get(message.channel.id);
+    if (!ticketInfo) return;
+
+    const isStaff = message.member.permissions.has(PermissionFlagsBits.ManageChannels) || 
+                    SUPPORT_ROLE_IDS.some(roleId => message.member.roles.cache.has(roleId));
+    const isTicketCreator = message.author.id === ticketInfo.userId;
+
+    if (!isStaff && !isTicketCreator) return;
+
+    try {
+      const detection = await translate(message.content, { to: 'en' });
+      const detectedLang = detection.from.language.iso;
+
+      if (isStaff && detectedLang === 'en' && ticketInfo.userLang && ticketInfo.userLang !== 'en') {
+        const memberTranslation = await translate(message.content, { from: 'en', to: ticketInfo.userLang });
+        if (memberTranslation.text !== message.content) {
+          await message.reply({
+            content: `🌐 **Translation (EN → ${ticketInfo.userLang.toUpperCase()}):**\n${memberTranslation.text}`,
+            allowedMentions: { repliedUser: false }
+          });
+        }
+      } else if (!isStaff && detectedLang !== 'en') {
+        if (!ticketInfo.userLang) {
+          ticketInfo.userLang = detectedLang;
+        }
+        if (detection.text !== message.content) {
+          await message.reply({
+            content: `🌐 **Translation (${detectedLang.toUpperCase()} → EN):**\n${detection.text}`,
+            allowedMentions: { repliedUser: false }
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Translation error:', error);
+    }
   }
 });
 

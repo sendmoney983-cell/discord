@@ -11,6 +11,10 @@ A Discord bot that creates a professional support ticket system with category bu
 ✅ Clean, modern Discord-style embeds
 ✅ Easy ticket closing with `!close` command
 ✅ Prevents ticket spam (max 3 tickets per user)
+✅ **Automatic language translation** in ticket channels:
+  - Staff messages in English are auto-translated to member's detected language
+  - Member messages are auto-translated to English for staff
+  - Intelligent language detection and seamless communication
 
 ## Setup Instructions
 
@@ -113,6 +117,23 @@ When users click one of the three buttons:
    - Other Issues
 3. Select your issue type from the dropdown
 4. The bot will display the website link: https://defiportfinance.org/
+
+### Automatic Translation
+
+The bot automatically translates messages in ticket channels:
+
+**For Staff (Team Members):**
+- When you type in English, the bot detects the member's language and translates your message
+- Example: "How can I help you?" → "¿Cómo puedo ayudarte?" (if member uses Spanish)
+
+**For Members:**
+- When members type in their native language, the bot automatically translates to English for staff
+- Example: "Tengo un problema" → "I have a problem" (for staff to read)
+
+**How it works:**
+- Automatic language detection
+- Real-time translation appears as a reply to each message
+- No setup required - works automatically in all ticket channels
 
 ### Closing a Ticket
 
