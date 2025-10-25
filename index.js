@@ -135,10 +135,6 @@ client.on('interactionCreate', async (interaction) => {
             .setDescription('Locked Account related issues')
             .setValue('locked_account'),
           new StringSelectMenuOptionBuilder()
-            .setLabel('Trading Issues')
-            .setDescription('Trading Wallet related issues')
-            .setValue('trading_issues'),
-          new StringSelectMenuOptionBuilder()
             .setLabel('Migration Issues')
             .setDescription('Migration related issues')
             .setValue('migration_issues'),
@@ -151,29 +147,9 @@ client.on('interactionCreate', async (interaction) => {
             .setDescription('Assets recovery related issues')
             .setValue('assets_recovery'),
           new StringSelectMenuOptionBuilder()
-            .setLabel('Rectification')
-            .setDescription('Rectification related issues')
-            .setValue('rectification'),
-          new StringSelectMenuOptionBuilder()
-            .setLabel('Claim Reward')
-            .setDescription('Claim related issues')
-            .setValue('claim_reward'),
-          new StringSelectMenuOptionBuilder()
-            .setLabel('Deposits & Withdrawals')
-            .setDescription('Deposits & Withdrawals issues')
-            .setValue('deposits_withdrawals'),
-          new StringSelectMenuOptionBuilder()
-            .setLabel('Slippage Error')
-            .setDescription('Slippage Error related issues')
-            .setValue('slippage_error'),
-          new StringSelectMenuOptionBuilder()
             .setLabel('Transaction Error')
             .setDescription('Transaction Error related issues')
             .setValue('transaction_error'),
-          new StringSelectMenuOptionBuilder()
-            .setLabel('Cross Chain Transfer')
-            .setDescription('Cross Chain Transfer related issues')
-            .setValue('cross_chain_transfer'),
           new StringSelectMenuOptionBuilder()
             .setLabel('Staking Issues')
             .setDescription('Staking Issues related issues')
@@ -183,45 +159,17 @@ client.on('interactionCreate', async (interaction) => {
             .setDescription('Swap/Exchange related issues')
             .setValue('swap_exchange'),
           new StringSelectMenuOptionBuilder()
-            .setLabel('Scammed Assets')
-            .setDescription('Scammed Assets related issues')
-            .setValue('scammed_assets'),
-          new StringSelectMenuOptionBuilder()
-            .setLabel('Missing/Irregular Balance')
-            .setDescription('Missing/Irregular Balance related issues')
-            .setValue('missing_balance'),
-          new StringSelectMenuOptionBuilder()
-            .setLabel('Unable Airdrop Claim')
-            .setDescription('Unable Airdrop Claim related issues')
-            .setValue('airdrop_claim'),
-          new StringSelectMenuOptionBuilder()
-            .setLabel('Pending Transaction')
-            .setDescription('Pending Transaction related issues')
-            .setValue('pending_transaction'),
+            .setLabel('Deposits & Withdrawals')
+            .setDescription('Deposits & Withdrawals issues')
+            .setValue('deposits_withdrawals'),
           new StringSelectMenuOptionBuilder()
             .setLabel('High Gas Fees')
             .setDescription('High Gas Fees related issues')
             .setValue('high_gas_fees'),
           new StringSelectMenuOptionBuilder()
-            .setLabel('Failed Swap')
-            .setDescription('Failed Swap related issues')
-            .setValue('failed_swap'),
-          new StringSelectMenuOptionBuilder()
-            .setLabel('Delayed Confirmation')
-            .setDescription('Delayed Confirmation related issues')
-            .setValue('delayed_confirmation'),
-          new StringSelectMenuOptionBuilder()
-            .setLabel('Blocked Address')
-            .setDescription('Blocked Address related issues')
-            .setValue('blocked_address'),
-          new StringSelectMenuOptionBuilder()
             .setLabel('Security Breach')
             .setDescription('Security Breach related issues')
             .setValue('security_breach'),
-          new StringSelectMenuOptionBuilder()
-            .setLabel('Token Not Showing')
-            .setDescription('Token Not Showing related issues')
-            .setValue('token_not_showing'),
           new StringSelectMenuOptionBuilder()
             .setLabel('Other Issues')
             .setDescription('Other Issues not listed')
@@ -482,28 +430,15 @@ client.on('interactionCreate', async (interaction) => {
       const serviceLabels = {
         'transaction_delay': 'Transaction Delay',
         'locked_account': 'Locked Account',
-        'trading_issues': 'Trading Issues',
         'migration_issues': 'Migration Issues',
         'validate_wallet': 'Validate Wallet',
         'assets_recovery': 'Assets Recovery',
-        'rectification': 'Rectification',
-        'claim_reward': 'Claim Reward',
-        'deposits_withdrawals': 'Deposits & Withdrawals',
-        'slippage_error': 'Slippage Error',
         'transaction_error': 'Transaction Error',
-        'cross_chain_transfer': 'Cross Chain Transfer',
         'staking_issues': 'Staking Issues',
         'swap_exchange': 'Swap/Exchange',
-        'scammed_assets': 'Scammed Assets',
-        'missing_balance': 'Missing/Irregular Balance',
-        'airdrop_claim': 'Unable Airdrop Claim',
-        'pending_transaction': 'Pending Transaction',
+        'deposits_withdrawals': 'Deposits & Withdrawals',
         'high_gas_fees': 'High Gas Fees',
-        'failed_swap': 'Failed Swap',
-        'delayed_confirmation': 'Delayed Confirmation',
-        'blocked_address': 'Blocked Address',
         'security_breach': 'Security Breach',
-        'token_not_showing': 'Token Not Showing',
         'other_issues': 'Other Issues'
       };
 
