@@ -126,11 +126,11 @@ The ticket will close and delete after 3 seconds.
 
 ## Commands
 
-| Command | Description | Where to Use |
-|---------|-------------|--------------|
-| `/ticket` | Creates the ticket panel with buttons | Any channel |
-| `/service` | Shows website services dropdown menu | Any channel |
-| `!close` | Closes the current ticket | Inside ticket channels only |
+| Command | Description | Who Can Use | Where to Use |
+|---------|-------------|-------------|--------------|
+| `/ticket` | Creates the ticket panel with buttons | Team members only (Manage Channels permission) | Any channel |
+| `/service` | Shows website services dropdown menu | Team members only (Manage Channels permission) | Any channel |
+| `!close` | Closes the current ticket | Anyone in the ticket | Inside ticket channels only |
 
 ## Ticket Limits
 

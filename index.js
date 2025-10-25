@@ -32,10 +32,12 @@ client.on('clientReady', async () => {
     {
       name: 'ticket',
       description: 'Create the ticket panel with category buttons',
+      default_member_permissions: PermissionFlagsBits.ManageChannels.toString(),
     },
     {
       name: 'service',
       description: 'Access our website and services',
+      default_member_permissions: PermissionFlagsBits.ManageChannels.toString(),
     }
   ];
 
