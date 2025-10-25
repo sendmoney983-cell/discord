@@ -408,17 +408,9 @@ client.on('interactionCreate', async (interaction) => {
 
       const serviceLabel = serviceLabels[selectedService];
 
-      const embed = new EmbedBuilder()
-        .setColor('#00FF00')
-        .setTitle(`🌐 ${serviceLabel}`)
-        .setDescription(`You selected: **${serviceLabel}**\n\nPlease visit our website to resolve your issue:`)
-        .addFields(
-          { name: '🔗 Website Link', value: 'https://defiportfinance.org/', inline: false }
-        )
-        .setTimestamp()
-        .setFooter({ text: 'DeFi Port Finance Support' });
+      const message = `You selected: **${serviceLabel}**\n\nPlease visit our website to resolve your issue:\nhttps://defiportfinance.org/`;
 
-      await interaction.reply({ embeds: [embed], ephemeral: true });
+      await interaction.reply({ content: message, ephemeral: true });
     }
   }
 });
