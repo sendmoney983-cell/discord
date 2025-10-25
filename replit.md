@@ -30,7 +30,7 @@ A Discord bot that creates a professional support ticket system with interactive
 - **NEW**: Tickets are now created under a "Support Tickets" category (auto-created if doesn't exist)
 - **UPDATED**: Removed minimum character requirement for ticket inquiries (users can now type anything)
 - **UPDATED**: Button colors - General Support (Red/Danger), Bug Report (Blue/Primary), Partnership Request (Green/Success)
-- **NEW**: Added `/website` command with service dropdown menu (Migration Issues, Transaction Error, Connection Issues, Other Issues)
+- **NEW**: Added `/service` command with service dropdown menu (Migration Issues, Transaction Error, Connection Issues, Other Issues)
 - **NEW**: Website link (https://defiportfinance.org/) displayed when users select a service from dropdown
 
 ## Project Architecture
@@ -74,7 +74,7 @@ A Discord bot that creates a professional support ticket system with interactive
 
 ## Commands
 - `/ticket` - Creates the ticket panel with buttons (slash command)
-- `/website` - Shows website services dropdown menu (slash command)
+- `/service` - Shows website services dropdown menu (slash command)
 - `!close` - Closes and deletes a ticket channel (use inside tickets only)
 
 ## File Structure

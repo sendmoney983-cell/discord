@@ -34,7 +34,7 @@ client.on('clientReady', async () => {
       description: 'Create the ticket panel with category buttons',
     },
     {
-      name: 'website',
+      name: 'service',
       description: 'Access our website and services',
     }
   ];
@@ -115,7 +115,7 @@ client.on('interactionCreate', async (interaction) => {
       await interaction.reply({ embeds: [embed], components: [row] });
     }
 
-    if (interaction.commandName === 'website') {
+    if (interaction.commandName === 'service') {
       const embed = new EmbedBuilder()
         .setColor('#00FF00')
         .setTitle('🌐 Select Your Issue Type')

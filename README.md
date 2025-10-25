@@ -97,7 +97,7 @@ When users click one of the three buttons:
 
 ### Accessing Website Services
 
-1. Run the `/website` command in any channel
+1. Run the `/service` command in any channel
 2. A dropdown menu will appear with service options:
    - 🔄 Migration Issues
    - ⚠️ Transaction Error
@@ -121,7 +121,7 @@ The ticket will close and delete after 3 seconds.
 | Command | Description | Where to Use |
 |---------|-------------|--------------|
 | `/ticket` | Creates the ticket panel with buttons | Any channel |
-| `/website` | Shows website services dropdown menu | Any channel |
+| `/service` | Shows website services dropdown menu | Any channel |
 | `!close` | Closes the current ticket | Inside ticket channels only |
 
 ## Ticket Limits
