@@ -42,12 +42,17 @@ client.on('clientReady', async () => {
   const rest = new REST({ version: '10' }).setToken(DISCORD_BOT_TOKEN);
 
   try {
-    console.log('📝 Registering slash commands...');
-    await rest.put(
-      Routes.applicationCommands(client.user.id),
-      { body: commands }
-    );
-    console.log('✅ Slash commands registered! Use /ticket to create the ticket panel');
+    console.log('📝 Registering slash commands to all servers...');
+    
+    for (const guild of client.guilds.cache.values()) {
+      await rest.put(
+        Routes.applicationGuildCommands(client.user.id, guild.id),
+        { body: commands }
+      );
+      console.log(`✅ Commands registered to: ${guild.name}`);
+    }
+    
+    console.log('✅ All slash commands registered! Commands should appear instantly.');
   } catch (error) {
     console.error('❌ Error registering commands:', error);
   }
