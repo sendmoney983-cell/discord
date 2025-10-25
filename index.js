@@ -102,7 +102,15 @@ client.on('messageCreate', async (message) => {
 
     try {
       const detection = await translate(message.content, { to: 'en' });
-      const detectedLang = detection.from.language.iso;
+      
+      console.log('Translation response:', JSON.stringify(detection, null, 2));
+      
+      if (!detection || !detection.raw || !detection.raw.src) {
+        console.error('Unexpected translation response:', detection);
+        return;
+      }
+      
+      const detectedLang = detection.raw.src;
 
       if (isStaff && detectedLang === 'en' && ticketInfo.userLang && ticketInfo.userLang !== 'en') {
         const memberTranslation = await translate(message.content, { from: 'en', to: ticketInfo.userLang });
