@@ -67,7 +67,7 @@ The bot will automatically start when you run the project. You should see:
 ```
 ✅ Bot logged in as YourBotName#1234
 🎫 Support ticket system is ready!
-📝 Use !setup command in a channel to create the ticket panel
+✅ Slash commands registered! Use /ticket to create the ticket panel
 ```
 
 ## Usage
@@ -76,7 +76,7 @@ The bot will automatically start when you run the project. You should see:
 
 1. In any text channel where you want the ticket panel, type:
    ```
-   !setup
+   /ticket
    ```
 2. The bot will create an embed with three buttons: General, Bug Report, and Partnership Request
 
@@ -99,7 +99,7 @@ The bot will close and delete the channel after 3 seconds.
 
 | Command | Description | Where to Use |
 |---------|-------------|--------------|
-| `!setup` | Creates the ticket panel with buttons | Any channel |
+| `/ticket` | Creates the ticket panel with buttons | Any channel |
 | `!close` | Closes the current ticket | Inside ticket channels only |
 
 ## Ticket Limits

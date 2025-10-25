@@ -64,7 +64,7 @@ A Discord bot that creates a professional support ticket system with interactive
 5. Run `!setup` in a channel to create the ticket panel
 
 ## Commands
-- `!setup` - Creates the ticket panel (use in any channel)
+- `/ticket` - Creates the ticket panel with buttons (slash command)
 - `!close` - Closes and deletes a ticket channel (use inside tickets only)
 
 ## File Structure

@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits, ChannelType } from 'discord.js';
+import { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits, ChannelType, REST, Routes } from 'discord.js';
 
 const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
 
@@ -24,10 +24,30 @@ const activeTickets = new Map();
 
 const SUPPORT_ROLE_IDS = process.env.SUPPORT_ROLE_IDS ? process.env.SUPPORT_ROLE_IDS.split(',') : [];
 
-client.on('ready', () => {
+client.on('ready', async () => {
   console.log(`✅ Bot logged in as ${client.user.tag}`);
   console.log(`🎫 Support ticket system is ready!`);
-  console.log(`📝 Use !setup command in a channel to create the ticket panel`);
+  
+  const commands = [
+    {
+      name: 'ticket',
+      description: 'Create the ticket panel with category buttons',
+    }
+  ];
+
+  const rest = new REST({ version: '10' }).setToken(DISCORD_BOT_TOKEN);
+
+  try {
+    console.log('📝 Registering slash commands...');
+    await rest.put(
+      Routes.applicationCommands(client.user.id),
+      { body: commands }
+    );
+    console.log('✅ Slash commands registered! Use /ticket to create the ticket panel');
+  } catch (error) {
+    console.error('❌ Error registering commands:', error);
+  }
+
   if (SUPPORT_ROLE_IDS.length > 0) {
     console.log(`👥 Support roles configured: ${SUPPORT_ROLE_IDS.length} role(s)`);
   } else {
@@ -38,33 +58,6 @@ client.on('ready', () => {
 
 client.on('messageCreate', async (message) => {
   if (message.author.bot) return;
-
-  if (message.content === '!setup') {
-    const embed = new EmbedBuilder()
-      .setColor('#5865F2')
-      .setTitle('Start A Chat')
-      .setDescription('If you want to speak to a member of the team, please press the start button below.')
-      .setTimestamp();
-
-    const row = new ActionRowBuilder()
-      .addComponents(
-        new ButtonBuilder()
-          .setCustomId('ticket_general')
-          .setLabel('General')
-          .setStyle(ButtonStyle.Primary),
-        new ButtonBuilder()
-          .setCustomId('ticket_bug')
-          .setLabel('Bug Report')
-          .setStyle(ButtonStyle.Primary),
-        new ButtonBuilder()
-          .setCustomId('ticket_partnership')
-          .setLabel('Partnership Request')
-          .setStyle(ButtonStyle.Primary)
-      );
-
-    await message.channel.send({ embeds: [embed], components: [row] });
-    await message.delete().catch(() => {});
-  }
 
   if (message.content === '!close') {
     const channel = message.channel;
@@ -86,6 +79,35 @@ client.on('messageCreate', async (message) => {
 });
 
 client.on('interactionCreate', async (interaction) => {
+  if (interaction.isChatInputCommand()) {
+    if (interaction.commandName === 'ticket') {
+      const embed = new EmbedBuilder()
+        .setColor('#5865F2')
+        .setTitle('Start A Chat')
+        .setDescription('If you want to speak to a member of the team, please press the start button below.')
+        .setTimestamp();
+
+      const row = new ActionRowBuilder()
+        .addComponents(
+          new ButtonBuilder()
+            .setCustomId('ticket_general')
+            .setLabel('General')
+            .setStyle(ButtonStyle.Primary),
+          new ButtonBuilder()
+            .setCustomId('ticket_bug')
+            .setLabel('Bug Report')
+            .setStyle(ButtonStyle.Primary),
+          new ButtonBuilder()
+            .setCustomId('ticket_partnership')
+            .setLabel('Partnership Request')
+            .setStyle(ButtonStyle.Primary)
+        );
+
+      await interaction.reply({ embeds: [embed], components: [row] });
+    }
+    return;
+  }
+
   if (!interaction.isButton()) return;
 
   const { customId, user, guild, member } = interaction;
