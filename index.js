@@ -1,65 +1,39 @@
 import { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits, ChannelType } from 'discord.js';
 
-let connectionSettings;
+const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
 
-async function getAccessToken() {
-  if (connectionSettings && connectionSettings.settings.expires_at && new Date(connectionSettings.settings.expires_at).getTime() > Date.now()) {
-    return connectionSettings.settings.access_token;
-  }
-  
-  const hostname = process.env.REPLIT_CONNECTORS_HOSTNAME;
-  const xReplitToken = process.env.REPL_IDENTITY 
-    ? 'repl ' + process.env.REPL_IDENTITY 
-    : process.env.WEB_REPL_RENEWAL 
-    ? 'depl ' + process.env.WEB_REPL_RENEWAL 
-    : null;
-
-  if (!xReplitToken) {
-    throw new Error('X_REPLIT_TOKEN not found for repl/depl');
-  }
-
-  connectionSettings = await fetch(
-    'https://' + hostname + '/api/v2/connection?include_secrets=true&connector_names=discord',
-    {
-      headers: {
-        'Accept': 'application/json',
-        'X_REPLIT_TOKEN': xReplitToken
-      }
-    }
-  ).then(res => res.json()).then(data => data.items?.[0]);
-
-  const accessToken = connectionSettings?.settings?.access_token || connectionSettings.settings?.oauth?.credentials?.access_token;
-
-  if (!connectionSettings || !accessToken) {
-    throw new Error('Discord not connected');
-  }
-  return accessToken;
+if (!DISCORD_BOT_TOKEN) {
+  console.error('❌ ERROR: DISCORD_BOT_TOKEN is not set!');
+  console.error('📝 Please add your Discord bot token to Replit Secrets:');
+  console.error('   1. Go to Discord Developer Portal: https://discord.com/developers/applications');
+  console.error('   2. Create a bot and copy the token');
+  console.error('   3. Add it to Replit Secrets as DISCORD_BOT_TOKEN');
+  process.exit(1);
 }
 
-async function getDiscordClient() {
-  const token = await getAccessToken();
-
-  const client = new Client({
-    intents: [
-      GatewayIntentBits.Guilds,
-      GatewayIntentBits.GuildMessages,
-      GatewayIntentBits.MessageContent,
-      GatewayIntentBits.GuildMembers
-    ]
-  });
-
-  await client.login(token);
-  return client;
-}
-
-const client = await getDiscordClient();
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildMembers
+  ]
+});
 
 const activeTickets = new Map();
+
+const SUPPORT_ROLE_IDS = process.env.SUPPORT_ROLE_IDS ? process.env.SUPPORT_ROLE_IDS.split(',') : [];
 
 client.on('ready', () => {
   console.log(`✅ Bot logged in as ${client.user.tag}`);
   console.log(`🎫 Support ticket system is ready!`);
   console.log(`📝 Use !setup command in a channel to create the ticket panel`);
+  if (SUPPORT_ROLE_IDS.length > 0) {
+    console.log(`👥 Support roles configured: ${SUPPORT_ROLE_IDS.length} role(s)`);
+  } else {
+    console.log(`⚠️  No support roles set - all members with Manage Channels permission can view tickets`);
+    console.log(`💡 Add SUPPORT_ROLE_IDS to Secrets (comma-separated) to restrict access`);
+  }
 });
 
 client.on('messageCreate', async (message) => {
@@ -137,35 +111,72 @@ client.on('interactionCreate', async (interaction) => {
     await interaction.deferReply({ ephemeral: true });
 
     try {
-      const ticketChannel = await guild.channels.create({
-        name: channelName,
-        type: ChannelType.GuildText,
-        topic: `${ticketType} ticket for ${user.tag}`,
-        permissionOverwrites: [
-          {
-            id: guild.id,
-            deny: [PermissionFlagsBits.ViewChannel]
-          },
-          {
-            id: user.id,
+      const permissionOverwrites = [
+        {
+          id: guild.id,
+          deny: [PermissionFlagsBits.ViewChannel]
+        },
+        {
+          id: user.id,
+          allow: [
+            PermissionFlagsBits.ViewChannel,
+            PermissionFlagsBits.SendMessages,
+            PermissionFlagsBits.ReadMessageHistory,
+            PermissionFlagsBits.AttachFiles,
+            PermissionFlagsBits.EmbedLinks
+          ]
+        },
+        {
+          id: client.user.id,
+          allow: [
+            PermissionFlagsBits.ViewChannel,
+            PermissionFlagsBits.SendMessages,
+            PermissionFlagsBits.ReadMessageHistory,
+            PermissionFlagsBits.ManageChannels
+          ]
+        }
+      ];
+
+      if (SUPPORT_ROLE_IDS.length > 0) {
+        for (const roleId of SUPPORT_ROLE_IDS) {
+          permissionOverwrites.push({
+            id: roleId,
             allow: [
               PermissionFlagsBits.ViewChannel,
               PermissionFlagsBits.SendMessages,
               PermissionFlagsBits.ReadMessageHistory,
               PermissionFlagsBits.AttachFiles,
-              PermissionFlagsBits.EmbedLinks
+              PermissionFlagsBits.EmbedLinks,
+              PermissionFlagsBits.ManageMessages
             ]
-          },
-          {
-            id: client.user.id,
-            allow: [
-              PermissionFlagsBits.ViewChannel,
-              PermissionFlagsBits.SendMessages,
-              PermissionFlagsBits.ReadMessageHistory,
-              PermissionFlagsBits.ManageChannels
-            ]
+          });
+        }
+      } else {
+        const adminRoles = guild.roles.cache.filter(role => 
+          role.permissions.has(PermissionFlagsBits.ManageChannels)
+        );
+        for (const [roleId, role] of adminRoles) {
+          if (roleId !== guild.id) {
+            permissionOverwrites.push({
+              id: roleId,
+              allow: [
+                PermissionFlagsBits.ViewChannel,
+                PermissionFlagsBits.SendMessages,
+                PermissionFlagsBits.ReadMessageHistory,
+                PermissionFlagsBits.AttachFiles,
+                PermissionFlagsBits.EmbedLinks,
+                PermissionFlagsBits.ManageMessages
+              ]
+            });
           }
-        ]
+        }
+      }
+
+      const ticketChannel = await guild.channels.create({
+        name: channelName,
+        type: ChannelType.GuildText,
+        topic: `${ticketType} ticket for ${user.tag}`,
+        permissionOverwrites: permissionOverwrites
       });
 
       activeTickets.set(ticketChannel.id, {
@@ -199,9 +210,22 @@ client.on('interactionCreate', async (interaction) => {
   }
 });
 
+client.on('channelDelete', (channel) => {
+  if (activeTickets.has(channel.id)) {
+    console.log(`🗑️ Ticket channel deleted: ${channel.name}`);
+    activeTickets.delete(channel.id);
+  }
+});
+
 client.on('error', console.error);
 client.on('warn', console.warn);
 
 process.on('unhandledRejection', error => {
   console.error('Unhandled promise rejection:', error);
+});
+
+client.login(DISCORD_BOT_TOKEN).catch(error => {
+  console.error('❌ Failed to login to Discord:', error.message);
+  console.error('📝 Please check that your DISCORD_BOT_TOKEN is correct');
+  process.exit(1);
 });
