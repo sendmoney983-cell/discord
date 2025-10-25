@@ -114,10 +114,6 @@ When users click one of the three buttons:
 3. Select your issue type from the dropdown
 4. The bot will display the website link: https://defiportfinance.org/
 
-### Getting Help
-
-Run the `/system` command in any channel to get support information and website links.
-
 ### Closing a Ticket
 
 **Option 1:** Click the red "Close Ticket" button in the ticket channel
@@ -134,7 +130,6 @@ The ticket will close and delete after 3 seconds.
 |---------|-------------|--------------|
 | `/ticket` | Creates the ticket panel with buttons | Any channel |
 | `/service` | Shows website services dropdown menu | Any channel |
-| `/system` | Get help and support information | Any channel |
 | `!close` | Closes the current ticket | Inside ticket channels only |
 
 ## Ticket Limits

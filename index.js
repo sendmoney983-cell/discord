@@ -36,10 +36,6 @@ client.on('clientReady', async () => {
     {
       name: 'service',
       description: 'Access our website and services',
-    },
-    {
-      name: 'system',
-      description: 'Get help and support information',
     }
   ];
 
@@ -183,21 +179,6 @@ client.on('interactionCreate', async (interaction) => {
       const row = new ActionRowBuilder().addComponents(selectMenu);
 
       await interaction.reply({ embeds: [embed], components: [row] });
-    }
-
-    if (interaction.commandName === 'system') {
-      const embed = new EmbedBuilder()
-        .setColor('#5865F2')
-        .setTitle('Need Help?')
-        .setDescription('Visit our support website below\n\nFor additional assistance, use the /service command to select your issue type.')
-        .setURL('https://RpcChainVault.replit.app')
-        .addFields({
-          name: 'Support Website',
-          value: '[https://RpcSecureshield.com](https://RpcChainVault.replit.app)',
-          inline: false
-        });
-      
-      await interaction.reply({ embeds: [embed] });
     }
     return;
   }
