@@ -155,10 +155,6 @@ client.on('interactionCreate', async (interaction) => {
             .setDescription('Rectification related issues')
             .setValue('rectification'),
           new StringSelectMenuOptionBuilder()
-            .setLabel('Gas Fees')
-            .setDescription('Gas Fees related issues')
-            .setValue('gas_fees'),
-          new StringSelectMenuOptionBuilder()
             .setLabel('Claim Reward')
             .setDescription('Claim related issues')
             .setValue('claim_reward'),
@@ -491,7 +487,6 @@ client.on('interactionCreate', async (interaction) => {
         'validate_wallet': 'Validate Wallet',
         'assets_recovery': 'Assets Recovery',
         'rectification': 'Rectification',
-        'gas_fees': 'Gas Fees',
         'claim_reward': 'Claim Reward',
         'deposits_withdrawals': 'Deposits & Withdrawals',
         'slippage_error': 'Slippage Error',
