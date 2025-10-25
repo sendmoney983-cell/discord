@@ -95,6 +95,17 @@ When users click one of the three buttons:
 
 **Note:** The bot will automatically find or create a "Support Tickets" category in your server. If you already have a category with "support" and "ticket" in the name, it will use that one.
 
+### Accessing Website Services
+
+1. Run the `/website` command in any channel
+2. A dropdown menu will appear with service options:
+   - 🔄 Migration Issues
+   - ⚠️ Transaction Error
+   - 🔌 Connection Issues
+   - ❓ Other Issues
+3. Select your issue type from the dropdown
+4. The bot will display the website link: https://defiportfinance.org/
+
 ### Closing a Ticket
 
 **Option 1:** Click the red "Close Ticket" button in the ticket channel
@@ -110,6 +121,7 @@ The ticket will close and delete after 3 seconds.
 | Command | Description | Where to Use |
 |---------|-------------|--------------|
 | `/ticket` | Creates the ticket panel with buttons | Any channel |
+| `/website` | Shows website services dropdown menu | Any channel |
 | `!close` | Closes the current ticket | Inside ticket channels only |
 
 ## Ticket Limits

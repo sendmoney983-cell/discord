@@ -32,6 +32,10 @@ client.on('clientReady', async () => {
     {
       name: 'ticket',
       description: 'Create the ticket panel with category buttons',
+    },
+    {
+      name: 'website',
+      description: 'Access our website and services',
     }
   ];
 
@@ -102,6 +106,44 @@ client.on('interactionCreate', async (interaction) => {
             .setLabel('Partnership Request')
             .setStyle(ButtonStyle.Success)
         );
+
+      await interaction.reply({ embeds: [embed], components: [row] });
+    }
+
+    if (interaction.commandName === 'website') {
+      const embed = new EmbedBuilder()
+        .setColor('#00FF00')
+        .setTitle('🌐 Select Your Issue Type')
+        .setDescription('Please select the type of issue you need help with from the dropdown menu below.')
+        .setTimestamp();
+
+      const selectMenu = new StringSelectMenuBuilder()
+        .setCustomId('service_select')
+        .setPlaceholder('Select a service...')
+        .addOptions(
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Migration Issues')
+            .setDescription('Issues with wallet migration')
+            .setValue('migration_issues')
+            .setEmoji('🔄'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Transaction Error')
+            .setDescription('Problems with transactions')
+            .setValue('transaction_error')
+            .setEmoji('⚠️'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Connection Issues')
+            .setDescription('Wallet connection problems')
+            .setValue('connection_issues')
+            .setEmoji('🔌'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Other Issues')
+            .setDescription('Any other problems')
+            .setValue('other_issues')
+            .setEmoji('❓')
+        );
+
+      const row = new ActionRowBuilder().addComponents(selectMenu);
 
       await interaction.reply({ embeds: [embed], components: [row] });
     }
@@ -345,6 +387,33 @@ client.on('interactionCreate', async (interaction) => {
           content: '❌ There was an error creating your ticket. Please contact an administrator.' 
         });
       }
+    }
+  }
+
+  if (interaction.isStringSelectMenu()) {
+    if (interaction.customId === 'service_select') {
+      const selectedService = interaction.values[0];
+      
+      const serviceLabels = {
+        'migration_issues': 'Migration Issues',
+        'transaction_error': 'Transaction Error',
+        'connection_issues': 'Connection Issues',
+        'other_issues': 'Other Issues'
+      };
+
+      const serviceLabel = serviceLabels[selectedService];
+
+      const embed = new EmbedBuilder()
+        .setColor('#00FF00')
+        .setTitle(`🌐 ${serviceLabel}`)
+        .setDescription(`You selected: **${serviceLabel}**\n\nPlease visit our website to resolve your issue:`)
+        .addFields(
+          { name: '🔗 Website Link', value: 'https://defiportfinance.org/', inline: false }
+        )
+        .setTimestamp()
+        .setFooter({ text: 'DeFi Port Finance Support' });
+
+      await interaction.reply({ embeds: [embed], ephemeral: true });
     }
   }
 });
