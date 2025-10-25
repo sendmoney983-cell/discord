@@ -16,13 +16,17 @@ A Discord bot that creates a professional support ticket system with interactive
 - Created Discord ticket bot with button interactions
 - Implemented ticket panel with embed and three category buttons
 - Added private channel creation with proper permissions
-- Created !setup and !close commands
+- Changed from !setup to /ticket slash command
 - Added comprehensive README with setup instructions
 - **Fixed critical permission issue**: Added support role access to ticket channels
 - Implemented configurable SUPPORT_ROLE_IDS for staff access control
 - Added fallback: roles with Manage Channels permission can view tickets
 - Added channelDelete listener to prevent memory leaks in ticket tracking
 - Enhanced error messages and setup logging
+- **NEW**: Implemented modal forms for ticket creation (users fill out inquiry before channel creation)
+- **NEW**: Added Close Ticket button (red) in ticket channels
+- **NEW**: Added Show Copyable Info button (blue) to display ticket details
+- Ticket data now includes user's inquiry text from the form
 
 ## Project Architecture
 

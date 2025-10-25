@@ -82,18 +82,23 @@ The bot will automatically start when you run the project. You should see:
 
 ### Creating a Ticket
 
-Users click one of the three buttons, and the bot will:
-- Create a private ticket channel
-- Only the user and staff can see it
-- Send a welcome message explaining the ticket
+When users click one of the three buttons:
+1. A form (modal) appears asking them to describe their inquiry
+2. After submitting the form, a private ticket channel is created
+3. Only the user and staff can see the channel
+4. The welcome message shows their inquiry and two buttons:
+   - **Close Ticket** (red) - Closes and deletes the channel
+   - **Show Copyable Info** (blue) - Shows ticket details privately
 
 ### Closing a Ticket
 
-Inside any ticket channel, type:
+**Option 1:** Click the red "Close Ticket" button in the ticket channel
+
+**Option 2:** Type the command:
 ```
 !close
 ```
-The bot will close and delete the channel after 3 seconds.
+The ticket will close and delete after 3 seconds.
 
 ## Commands
 

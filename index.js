@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits, ChannelType, REST, Routes } from 'discord.js';
+import { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits, ChannelType, REST, Routes, ModalBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
 
 const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
 
@@ -24,7 +24,7 @@ const activeTickets = new Map();
 
 const SUPPORT_ROLE_IDS = process.env.SUPPORT_ROLE_IDS ? process.env.SUPPORT_ROLE_IDS.split(',') : [];
 
-client.on('ready', async () => {
+client.on('clientReady', async () => {
   console.log(`✅ Bot logged in as ${client.user.tag}`);
   console.log(`🎫 Support ticket system is ready!`);
   
@@ -108,31 +108,109 @@ client.on('interactionCreate', async (interaction) => {
     return;
   }
 
-  if (!interaction.isButton()) return;
+  if (interaction.isButton()) {
+    const { customId, user, guild } = interaction;
 
-  const { customId, user, guild, member } = interaction;
+    if (customId.startsWith('ticket_')) {
+      const userTickets = Array.from(activeTickets.values()).filter(t => t.userId === user.id);
+      if (userTickets.length >= 3) {
+        return interaction.reply({ 
+          content: '❌ You already have 3 open tickets. Please close one before opening a new ticket.', 
+          ephemeral: true 
+        });
+      }
 
-  if (customId.startsWith('ticket_')) {
-    const userTickets = Array.from(activeTickets.values()).filter(t => t.userId === user.id);
-    if (userTickets.length >= 3) {
-      return interaction.reply({ 
-        content: '❌ You already have 3 open tickets. Please close one before opening a new ticket.', 
-        ephemeral: true 
-      });
+      const ticketTypes = {
+        'ticket_general': 'General',
+        'ticket_bug': 'Bug Report',
+        'ticket_partnership': 'Partnership Request'
+      };
+
+      const ticketType = ticketTypes[customId];
+
+      const modal = new ModalBuilder()
+        .setCustomId(`modal_${customId}`)
+        .setTitle(`Submit ${ticketType} Ticket`);
+
+      const inquiryInput = new TextInputBuilder()
+        .setCustomId('inquiry_input')
+        .setLabel('Please provide info regarding your inquiry')
+        .setStyle(TextInputStyle.Paragraph)
+        .setPlaceholder('Describe your issue or request...')
+        .setRequired(true)
+        .setMinLength(10)
+        .setMaxLength(1000);
+
+      const firstActionRow = new ActionRowBuilder().addComponents(inquiryInput);
+      modal.addComponents(firstActionRow);
+
+      await interaction.showModal(modal);
+      return;
     }
 
-    const ticketTypes = {
-      'ticket_general': 'General',
-      'ticket_bug': 'Bug Report',
-      'ticket_partnership': 'Partnership Request'
-    };
+    if (customId === 'close_ticket') {
+      const channel = interaction.channel;
+      
+      if (!channel.name.startsWith('ticket-')) {
+        return interaction.reply({ 
+          content: '❌ This can only be used in ticket channels!', 
+          ephemeral: true 
+        });
+      }
 
-    const ticketType = ticketTypes[customId];
-    const channelName = `ticket-${user.username}-${Date.now()}`.toLowerCase().replace(/[^a-z0-9-]/g, '');
+      const ticketInfo = activeTickets.get(channel.id);
+      if (ticketInfo) {
+        activeTickets.delete(channel.id);
+      }
 
-    await interaction.deferReply({ ephemeral: true });
+      await interaction.reply('🔒 Closing ticket in 3 seconds...');
+      setTimeout(async () => {
+        await channel.delete().catch(console.error);
+      }, 3000);
+      return;
+    }
 
-    try {
+    if (customId === 'show_info') {
+      const channel = interaction.channel;
+      const ticketInfo = activeTickets.get(channel.id);
+      
+      if (ticketInfo) {
+        const infoText = `**Ticket Information**\n` +
+          `Ticket Type: ${ticketInfo.ticketType}\n` +
+          `Created By: <@${ticketInfo.userId}>\n` +
+          `Created At: <t:${Math.floor(ticketInfo.createdAt / 1000)}:F>\n` +
+          `Channel ID: ${channel.id}\n` +
+          (ticketInfo.inquiry ? `\n**User Inquiry:**\n${ticketInfo.inquiry}` : '');
+        
+        await interaction.reply({ content: infoText, ephemeral: true });
+      } else {
+        await interaction.reply({ 
+          content: '❌ Could not find ticket information.', 
+          ephemeral: true 
+        });
+      }
+      return;
+    }
+  }
+
+  if (interaction.isModalSubmit()) {
+    if (interaction.customId.startsWith('modal_ticket_')) {
+      const { user, guild } = interaction;
+      
+      const inquiry = interaction.fields.getTextInputValue('inquiry_input');
+      
+      const ticketTypes = {
+        'modal_ticket_general': 'General',
+        'modal_ticket_bug': 'Bug Report',
+        'modal_ticket_partnership': 'Partnership Request'
+      };
+
+      const ticketType = ticketTypes[interaction.customId];
+      const channelName = `ticket-${user.username}-${Date.now()}`.toLowerCase().replace(/[^a-z0-9-]/g, '');
+
+      await interaction.deferReply({ ephemeral: true });
+
+      try {
       const permissionOverwrites = [
         {
           id: guild.id,
@@ -204,30 +282,45 @@ client.on('interactionCreate', async (interaction) => {
       activeTickets.set(ticketChannel.id, {
         userId: user.id,
         ticketType: ticketType,
-        createdAt: Date.now()
+        createdAt: Date.now(),
+        inquiry: inquiry
       });
 
       const welcomeEmbed = new EmbedBuilder()
         .setColor('#5865F2')
         .setTitle(`${ticketType} Ticket`)
-        .setDescription(`Hello ${user}, welcome to your support ticket!\n\nPlease describe your issue and a staff member will assist you shortly.\n\nTo close this ticket, use the command: \`!close\``)
+        .setDescription(`Hello ${user}, welcome to your support ticket!\n\n**Your Inquiry:**\n${inquiry}\n\nA staff member will assist you shortly.`)
         .setTimestamp()
         .setFooter({ text: `Ticket created by ${user.tag}` });
 
+      const buttonRow = new ActionRowBuilder()
+        .addComponents(
+          new ButtonBuilder()
+            .setCustomId('close_ticket')
+            .setLabel('Close Ticket')
+            .setStyle(ButtonStyle.Danger),
+          new ButtonBuilder()
+            .setCustomId('show_info')
+            .setLabel('Show Copyable Info')
+            .setStyle(ButtonStyle.Primary)
+        );
+
       await ticketChannel.send({ 
         content: `${user}`, 
-        embeds: [welcomeEmbed] 
+        embeds: [welcomeEmbed],
+        components: [buttonRow]
       });
 
       await interaction.editReply({ 
         content: `✅ Your ticket has been created: ${ticketChannel}` 
       });
 
-    } catch (error) {
-      console.error('Error creating ticket:', error);
-      await interaction.editReply({ 
-        content: '❌ There was an error creating your ticket. Please contact an administrator.' 
-      });
+      } catch (error) {
+        console.error('Error creating ticket:', error);
+        await interaction.editReply({ 
+          content: '❌ There was an error creating your ticket. Please contact an administrator.' 
+        });
+      }
     }
   }
 });
