@@ -84,11 +84,13 @@ The bot will automatically start when you run the project. You should see:
 
 When users click one of the three buttons:
 1. A form (modal) appears asking them to describe their inquiry
-2. After submitting the form, a private ticket channel is created
+2. After submitting the form, a private ticket channel is created **under the "Support Tickets" category**
 3. Only the user and staff can see the channel
 4. The welcome message shows their inquiry and two buttons:
    - **Close Ticket** (red) - Closes and deletes the channel
    - **Show Copyable Info** (blue) - Shows ticket details privately
+
+**Note:** The bot will automatically find or create a "Support Tickets" category in your server. If you already have a category with "support" and "ticket" in the name, it will use that one.
 
 ### Closing a Ticket
 

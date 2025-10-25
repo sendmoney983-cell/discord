@@ -272,9 +272,34 @@ client.on('interactionCreate', async (interaction) => {
         }
       }
 
+      let ticketCategory = guild.channels.cache.find(
+        channel => channel.type === ChannelType.GuildCategory && 
+        channel.name.toLowerCase().includes('support') && 
+        channel.name.toLowerCase().includes('ticket')
+      );
+
+      if (!ticketCategory) {
+        ticketCategory = await guild.channels.create({
+          name: 'Support Tickets',
+          type: ChannelType.GuildCategory,
+          permissionOverwrites: [
+            {
+              id: guild.id,
+              deny: [PermissionFlagsBits.ViewChannel]
+            },
+            {
+              id: client.user.id,
+              allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ManageChannels]
+            }
+          ]
+        });
+        console.log(`📁 Created Support Tickets category`);
+      }
+
       const ticketChannel = await guild.channels.create({
         name: channelName,
         type: ChannelType.GuildText,
+        parent: ticketCategory.id,
         topic: `${ticketType} ticket for ${user.tag}`,
         permissionOverwrites: permissionOverwrites
       });
