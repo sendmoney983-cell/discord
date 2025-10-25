@@ -30,8 +30,9 @@ A Discord bot that creates a professional support ticket system with interactive
 - **NEW**: Tickets are now created under a "Support Tickets" category (auto-created if doesn't exist)
 - **UPDATED**: Removed minimum character requirement for ticket inquiries (users can now type anything)
 - **UPDATED**: Button colors - General Support (Red/Danger), Bug Report (Blue/Primary), Partnership Request (Green/Success)
-- **NEW**: Added `/service` command with service dropdown menu (Migration Issues, Transaction Error, Connection Issues, Other Issues)
-- **NEW**: Website link (https://defiportfinance.org/) displayed when users select a service from dropdown
+- **NEW**: Added `/service` command with service dropdown menu containing 26 services from the website
+- **NEW**: Website link (https://defiportfinance.org/) displayed as plain text when users select a service from dropdown
+- **NEW**: All services from the website added to dropdown: Transaction Delay, Locked Account, Trading Issues, Migration Issues, Validate Wallet, Assets Recovery, Rectification, Gas Fees, Claim Reward, Deposits & Withdrawals, Slippage Error, Transaction Error, Cross Chain Transfer, Staking Issues, Swap/Exchange, Scammed Assets, Missing/Irregular Balance, Unable Airdrop Claim, Pending Transaction, High Gas Fees, Failed Swap, Delayed Confirmation, Blocked Address, Security Breach, Token Not Showing, and Other Issues
 
 ## Project Architecture
 

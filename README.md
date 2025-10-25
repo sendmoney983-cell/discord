@@ -98,11 +98,33 @@ When users click one of the three buttons:
 ### Accessing Website Services
 
 1. Run the `/service` command in any channel
-2. A dropdown menu will appear with service options:
-   - 🔄 Migration Issues
-   - ⚠️ Transaction Error
-   - 🔌 Connection Issues
-   - ❓ Other Issues
+2. A dropdown menu will appear with 26 service options including:
+   - Transaction Delay
+   - Locked Account
+   - Trading Issues
+   - Migration Issues
+   - Validate Wallet
+   - Assets Recovery
+   - Rectification
+   - Gas Fees
+   - Claim Reward
+   - Deposits & Withdrawals
+   - Slippage Error
+   - Transaction Error
+   - Cross Chain Transfer
+   - Staking Issues
+   - Swap/Exchange
+   - Scammed Assets
+   - Missing/Irregular Balance
+   - Unable Airdrop Claim
+   - Pending Transaction
+   - High Gas Fees
+   - Failed Swap
+   - Delayed Confirmation
+   - Blocked Address
+   - Security Breach
+   - Token Not Showing
+   - Other Issues
 3. Select your issue type from the dropdown
 4. The bot will display the website link: https://defiportfinance.org/
 

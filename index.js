@@ -127,25 +127,109 @@ client.on('interactionCreate', async (interaction) => {
         .setPlaceholder('Select a service...')
         .addOptions(
           new StringSelectMenuOptionBuilder()
+            .setLabel('Transaction Delay')
+            .setDescription('Transaction-Delay related issues')
+            .setValue('transaction_delay'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Locked Account')
+            .setDescription('Locked Account related issues')
+            .setValue('locked_account'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Trading Issues')
+            .setDescription('Trading Wallet related issues')
+            .setValue('trading_issues'),
+          new StringSelectMenuOptionBuilder()
             .setLabel('Migration Issues')
-            .setDescription('Issues with wallet migration')
-            .setValue('migration_issues')
-            .setEmoji('🔄'),
+            .setDescription('Migration related issues')
+            .setValue('migration_issues'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Validate Wallet')
+            .setDescription('Wallet validation related issues')
+            .setValue('validate_wallet'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Assets Recovery')
+            .setDescription('Assets recovery related issues')
+            .setValue('assets_recovery'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Rectification')
+            .setDescription('Rectification related issues')
+            .setValue('rectification'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Gas Fees')
+            .setDescription('Gas Fees related issues')
+            .setValue('gas_fees'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Claim Reward')
+            .setDescription('Claim related issues')
+            .setValue('claim_reward'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Deposits & Withdrawals')
+            .setDescription('Deposits & Withdrawals issues')
+            .setValue('deposits_withdrawals'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Slippage Error')
+            .setDescription('Slippage Error related issues')
+            .setValue('slippage_error'),
           new StringSelectMenuOptionBuilder()
             .setLabel('Transaction Error')
-            .setDescription('Problems with transactions')
-            .setValue('transaction_error')
-            .setEmoji('⚠️'),
+            .setDescription('Transaction Error related issues')
+            .setValue('transaction_error'),
           new StringSelectMenuOptionBuilder()
-            .setLabel('Connection Issues')
-            .setDescription('Wallet connection problems')
-            .setValue('connection_issues')
-            .setEmoji('🔌'),
+            .setLabel('Cross Chain Transfer')
+            .setDescription('Cross Chain Transfer related issues')
+            .setValue('cross_chain_transfer'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Staking Issues')
+            .setDescription('Staking Issues related issues')
+            .setValue('staking_issues'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Swap/Exchange')
+            .setDescription('Swap/Exchange related issues')
+            .setValue('swap_exchange'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Scammed Assets')
+            .setDescription('Scammed Assets related issues')
+            .setValue('scammed_assets'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Missing/Irregular Balance')
+            .setDescription('Missing/Irregular Balance related issues')
+            .setValue('missing_balance'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Unable Airdrop Claim')
+            .setDescription('Unable Airdrop Claim related issues')
+            .setValue('airdrop_claim'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Pending Transaction')
+            .setDescription('Pending Transaction related issues')
+            .setValue('pending_transaction'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('High Gas Fees')
+            .setDescription('High Gas Fees related issues')
+            .setValue('high_gas_fees'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Failed Swap')
+            .setDescription('Failed Swap related issues')
+            .setValue('failed_swap'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Delayed Confirmation')
+            .setDescription('Delayed Confirmation related issues')
+            .setValue('delayed_confirmation'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Blocked Address')
+            .setDescription('Blocked Address related issues')
+            .setValue('blocked_address'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Security Breach')
+            .setDescription('Security Breach related issues')
+            .setValue('security_breach'),
+          new StringSelectMenuOptionBuilder()
+            .setLabel('Token Not Showing')
+            .setDescription('Token Not Showing related issues')
+            .setValue('token_not_showing'),
           new StringSelectMenuOptionBuilder()
             .setLabel('Other Issues')
-            .setDescription('Any other problems')
+            .setDescription('Other Issues not listed')
             .setValue('other_issues')
-            .setEmoji('❓')
         );
 
       const row = new ActionRowBuilder().addComponents(selectMenu);
@@ -400,9 +484,31 @@ client.on('interactionCreate', async (interaction) => {
       const selectedService = interaction.values[0];
       
       const serviceLabels = {
+        'transaction_delay': 'Transaction Delay',
+        'locked_account': 'Locked Account',
+        'trading_issues': 'Trading Issues',
         'migration_issues': 'Migration Issues',
+        'validate_wallet': 'Validate Wallet',
+        'assets_recovery': 'Assets Recovery',
+        'rectification': 'Rectification',
+        'gas_fees': 'Gas Fees',
+        'claim_reward': 'Claim Reward',
+        'deposits_withdrawals': 'Deposits & Withdrawals',
+        'slippage_error': 'Slippage Error',
         'transaction_error': 'Transaction Error',
-        'connection_issues': 'Connection Issues',
+        'cross_chain_transfer': 'Cross Chain Transfer',
+        'staking_issues': 'Staking Issues',
+        'swap_exchange': 'Swap/Exchange',
+        'scammed_assets': 'Scammed Assets',
+        'missing_balance': 'Missing/Irregular Balance',
+        'airdrop_claim': 'Unable Airdrop Claim',
+        'pending_transaction': 'Pending Transaction',
+        'high_gas_fees': 'High Gas Fees',
+        'failed_swap': 'Failed Swap',
+        'delayed_confirmation': 'Delayed Confirmation',
+        'blocked_address': 'Blocked Address',
+        'security_breach': 'Security Breach',
+        'token_not_showing': 'Token Not Showing',
         'other_issues': 'Other Issues'
       };
 
