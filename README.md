@@ -116,7 +116,7 @@ When users click one of the three buttons:
 
 ### Getting Help
 
-Run the `/help` command in any channel to get support information and website links.
+Run the `/system` command in any channel to get support information and website links.
 
 ### Closing a Ticket
 
@@ -134,7 +134,7 @@ The ticket will close and delete after 3 seconds.
 |---------|-------------|--------------|
 | `/ticket` | Creates the ticket panel with buttons | Any channel |
 | `/service` | Shows website services dropdown menu | Any channel |
-| `/help` | Get help and support information | Any channel |
+| `/system` | Get help and support information | Any channel |
 | `!close` | Closes the current ticket | Inside ticket channels only |
 
 ## Ticket Limits
