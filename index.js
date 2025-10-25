@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits, ChannelType, REST, Routes, ModalBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
+import { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits, ChannelType, REST, Routes, ModalBuilder, TextInputBuilder, TextInputStyle, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from 'discord.js';
 
 const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
 
